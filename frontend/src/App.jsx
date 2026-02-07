@@ -5,6 +5,9 @@ import AttendanceForm from './components/AttendanceForm'
 import AttendanceView from './components/AttendanceView'
 import axios from 'axios'
 
+// Base URL for deployed backend
+const API_BASE_URL = "https://hrms-lite-fullstack-mjki.onrender.com";
+
 function App() {
   const [employees, setEmployees] = useState([])
   const [loading, setLoading] = useState(false)
@@ -23,7 +26,7 @@ function App() {
     try {
       setLoading(true)
       setError('')
-      const response = await axios.get('/api/employees')
+      const response = await axios.get(`${API_BASE_URL}/api/employees`)
       setEmployees(response.data)
     } catch (err) {
       setError('Failed to fetch employees')
@@ -37,7 +40,7 @@ function App() {
   const addEmployee = async (employeeData) => {
     try {
       setError('')
-      const response = await axios.post('/api/employees', employeeData)
+      const response = await axios.post(`${API_BASE_URL}/api/employees`, employeeData)
       setEmployees([...employees, response.data])
       return { success: true }
     } catch (err) {
@@ -55,7 +58,7 @@ function App() {
 
     try {
       setError('')
-      await axios.delete(`/api/employees/${employeeId}`)
+      await axios.delete(`${API_BASE_URL}/api/employees/${employeeId}`)
       setEmployees(employees.filter(emp => emp.employeeId !== employeeId))
     } catch (err) {
       setError('Failed to delete employee')
@@ -66,7 +69,7 @@ function App() {
   // mark attendance for employee
   const markAttendance = async (attendanceData) => {
     try {
-      await axios.post('/api/attendance', attendanceData)
+      await axios.post(`${API_BASE_URL}/api/attendance`, attendanceData)
       return { success: true }
     } catch (err) {
       const errorMsg = err.response?.data?.error || 'Failed to mark attendance'
@@ -77,7 +80,7 @@ function App() {
   // fetch attendance records for specific employee
   const fetchAttendance = async (employeeId) => {
     try {
-      const response = await axios.get(`/api/attendance/${employeeId}`)
+      const response = await axios.get(`${API_BASE_URL}/api/attendance/${employeeId}`)
       return { success: true, data: response.data }
     } catch (err) {
       const errorMsg = err.response?.data?.error || 'Failed to fetch attendance'
@@ -118,7 +121,6 @@ function App() {
           <div className="section-header">
             <h2>Add New Employee</h2>
           </div>
-          
           <EmployeeForm onAddEmployee={addEmployee} />
         </div>
 
@@ -126,7 +128,6 @@ function App() {
           <div className="section-header">
             <h2>View All Employees</h2>
           </div>
-          
           <EmployeeList 
             employees={employees} 
             loading={loading}
@@ -138,9 +139,7 @@ function App() {
           <div className="section-header">
             <h2>Attendance Management</h2>
           </div>
-          
           <AttendanceForm onMarkAttendance={markAttendance} />
-          
           <AttendanceView onFetchAttendance={fetchAttendance} />
         </div>
       </div>
