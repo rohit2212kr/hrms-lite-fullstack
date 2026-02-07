@@ -1,39 +1,31 @@
+// Load .env file first
 require('dotenv').config();
+
 const express = require('express');
 const connectDB = require('./config/db');
 
-
 const app = express();
 
-
-// Middleware
+// Parse JSON requests
 app.use(express.json());
 
-
-// Connect to Database
+// Connect to DB
 connectDB();
 
-
-// Routes
 const employeeRoutes = require('./routes/employeeRoutes');
 const attendanceRoutes = require('./routes/attendanceRoutes');
 
-
-// Basic route for testing
+// Health check route
 app.get('/', (req, res) => {
   res.json({ message: 'HRMS Lite API is running' });
 });
 
-
-// API Routes
 app.use('/api/employees', employeeRoutes);
 app.use('/api/attendance', attendanceRoutes);
 
-
-// Start server
 const PORT = process.env.PORT || 5000;
 
-
+// Start server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 }).on('error', (error) => {

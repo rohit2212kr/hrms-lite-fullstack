@@ -43,70 +43,69 @@ function EmployeeForm({ onAddEmployee }) {
 
   return (
     <div className="form-section">
-      <h2>Add New Employee</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Employee ID *</label>
+          <label>Employee ID</label>
           <input
             type="text"
             name="employeeId"
             value={formData.employeeId}
             onChange={handleChange}
             required
-            placeholder="e.g., EMP001"
           />
+          <div className="helper-text">Unique identifier such as EMP001, EMP002, etc.</div>
         </div>
 
         <div className="form-group">
-          <label>Name *</label>
+          <label>Full Name</label>
           <input
             type="text"
             name="name"
             value={formData.name}
             onChange={handleChange}
             required
-            placeholder="e.g., John Doe"
           />
+          <div className="helper-text">Employee's complete name as per official records</div>
         </div>
 
         <div className="form-group">
-          <label>Email *</label>
+          <label>Email Address</label>
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
             required
-            placeholder="e.g., john@example.com"
           />
+          <div className="helper-text">Work email address for official communication</div>
         </div>
 
         <div className="form-group">
-          <label>Department *</label>
+          <label>Department</label>
           <input
             type="text"
             name="department"
             value={formData.department}
             onChange={handleChange}
             required
-            placeholder="e.g., Engineering"
           />
+          <div className="helper-text">The department or team this employee belongs to</div>
         </div>
 
         <div className="form-group">
-          <label>Position *</label>
+          <label>Job Position</label>
           <input
             type="text"
             name="position"
             value={formData.position}
             onChange={handleChange}
             required
-            placeholder="e.g., Software Engineer"
           />
+          <div className="helper-text">Current role or job title</div>
         </div>
 
         <button type="submit" disabled={submitting}>
-          {submitting ? 'Adding...' : 'Add Employee'}
+          {submitting ? 'Adding Employee...' : 'Add Employee'}
         </button>
 
         {message.text && (

@@ -4,7 +4,7 @@ const employeeSchema = new mongoose.Schema({
   employeeId: {
     type: String,
     required: true,
-    unique: true
+    unique: true  // employeeId must be unique
   },
   name: {
     type: String,

@@ -4,12 +4,12 @@ function EmployeeList({ employees, loading, onDeleteEmployee }) {
   }
 
   if (employees.length === 0) {
-    return <div className="empty-state">No employees found. Add your first employee above.</div>
+    return <div className="empty-state">No employees yet. Start by adding your first employee above.</div>
   }
 
   return (
     <div>
-      <h2>Employee List ({employees.length})</h2>
+      <h2>All Employees ({employees.length})</h2>
       <table>
         <thead>
           <tr>

@@ -1,16 +1,15 @@
 const Employee = require('../models/Employee');
 
-// Add a new employee
+// Add new employee
 const addEmployee = async (req, res) => {
   try {
     const { employeeId, name, email, department, position } = req.body;
 
-    // Check if all required fields are provided
+    // validate required fields
     if (!employeeId || !name || !email || !department || !position) {
       return res.status(400).json({ error: 'All fields are required' });
     }
 
-    // Create new employee
     const employee = await Employee.create({
       employeeId,
       name,
@@ -21,7 +20,6 @@ const addEmployee = async (req, res) => {
 
     res.status(201).json(employee);
   } catch (error) {
-    // Handle duplicate employeeId error
     if (error.code === 11000) {
       return res.status(400).json({ error: 'Employee ID already exists' });
     }
@@ -29,7 +27,7 @@ const addEmployee = async (req, res) => {
   }
 };
 
-// Get all employees
+// Get all employees list
 const getAllEmployees = async (req, res) => {
   try {
     const employees = await Employee.find();
@@ -39,7 +37,7 @@ const getAllEmployees = async (req, res) => {
   }
 };
 
-// Delete an employee
+// Delete employee by ID
 const deleteEmployee = async (req, res) => {
   try {
     const { employeeId } = req.params;

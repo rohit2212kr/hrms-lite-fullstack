@@ -1,28 +1,28 @@
 const Attendance = require('../models/Attendance');
 const Employee = require('../models/Employee');
 
-// Mark attendance for an employee
+// Mark daily attendance for employee
 const markAttendance = async (req, res) => {
   try {
     const { employeeId, date, status } = req.body;
 
-    // Check if all required fields are provided
+    // validate input fields
     if (!employeeId || !date || !status) {
       return res.status(400).json({ error: 'All fields are required' });
     }
 
-    // Validate status value
+    // check valid status
     if (status !== 'Present' && status !== 'Absent') {
       return res.status(400).json({ error: 'Status must be either Present or Absent' });
     }
 
-    // Check if employee exists
+    // verify employee exists
     const employee = await Employee.findOne({ employeeId });
     if (!employee) {
       return res.status(404).json({ error: 'Employee not found' });
     }
 
-    // Use findOneAndUpdate with upsert to create or update attendance record
+    // upsert attendance record (create if not exists)
     const attendance = await Attendance.findOneAndUpdate(
       { employeeId, date: new Date(date) },
       { employeeId, date: new Date(date), status },
@@ -35,18 +35,18 @@ const markAttendance = async (req, res) => {
   }
 };
 
-// Get attendance records for an employee
+// Get attendance history for specific employee
 const getAttendanceByEmployee = async (req, res) => {
   try {
     const { employeeId } = req.params;
 
-    // Check if employee exists
+    // verify employee exists
     const employee = await Employee.findOne({ employeeId });
     if (!employee) {
       return res.status(404).json({ error: 'Employee not found' });
     }
 
-    // Get all attendance records for the employee, sorted by date (descending)
+    // fetch all records sorted by latest first
     const attendanceRecords = await Attendance.find({ employeeId }).sort({ date: -1 });
 
     res.status(200).json(attendanceRecords);

@@ -39,22 +39,22 @@ function AttendanceForm({ onMarkAttendance }) {
 
   return (
     <div className="form-section">
-      <h2>Mark Attendance</h2>
+      <h2>Mark Daily Attendance</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Employee ID *</label>
+          <label>Employee ID</label>
           <input
             type="text"
             name="employeeId"
             value={formData.employeeId}
             onChange={handleChange}
             required
-            placeholder="e.g., EMP001"
           />
+          <div className="helper-text">Enter the ID of the employee whose attendance you want to mark</div>
         </div>
 
         <div className="form-group">
-          <label>Date *</label>
+          <label>Date</label>
           <input
             type="date"
             name="date"
@@ -62,30 +62,25 @@ function AttendanceForm({ onMarkAttendance }) {
             onChange={handleChange}
             required
           />
+          <div className="helper-text">Choose the date for this attendance record</div>
         </div>
 
         <div className="form-group">
-          <label>Status *</label>
+          <label>Attendance Status</label>
           <select
             name="status"
             value={formData.status}
             onChange={handleChange}
             required
-            style={{
-              width: '100%',
-              padding: '10px',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              fontSize: '14px'
-            }}
           >
             <option value="Present">Present</option>
             <option value="Absent">Absent</option>
           </select>
+          <div className="helper-text">Mark whether the employee was present or absent</div>
         </div>
 
         <button type="submit" disabled={submitting}>
-          {submitting ? 'Marking...' : 'Mark Attendance'}
+          {submitting ? 'Saving Attendance...' : 'Mark Attendance'}
         </button>
 
         {message.text && (

@@ -6,13 +6,13 @@ const {
   deleteEmployee
 } = require('../controllers/employeeController');
 
-// POST /api/employees - Add a new employee
+// POST /api/employees - add new employee
 router.post('/', addEmployee);
 
-// GET /api/employees - Get all employees
+// GET /api/employees - get all employees
 router.get('/', getAllEmployees);
 
-// DELETE /api/employees/:employeeId - Delete an employee
+// DELETE /api/employees/:employeeId - delete employee
 router.delete('/:employeeId', deleteEmployee);
 
 module.exports = router;

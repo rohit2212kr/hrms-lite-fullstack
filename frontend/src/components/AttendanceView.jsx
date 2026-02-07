@@ -36,21 +36,21 @@ function AttendanceView({ onFetchAttendance }) {
 
   return (
     <div className="form-section">
-      <h2>View Attendance Records</h2>
+      <h2>View Attendance History</h2>
       
-      <form onSubmit={handleSearch} style={{ marginBottom: '20px' }}>
+      <form onSubmit={handleSearch} style={{ marginBottom: '25px' }}>
         <div className="form-group">
-          <label>Employee ID *</label>
+          <label>Employee ID</label>
           <input
             type="text"
             value={employeeId}
             onChange={(e) => setEmployeeId(e.target.value)}
             required
-            placeholder="e.g., EMP001"
           />
+          <div className="helper-text">Enter an employee ID to view their complete attendance history</div>
         </div>
         <button type="submit" disabled={loading}>
-          {loading ? 'Searching...' : 'Search Attendance'}
+          {loading ? 'Searching...' : 'View Attendance Records'}
         </button>
       </form>
 
@@ -59,12 +59,12 @@ function AttendanceView({ onFetchAttendance }) {
       {searched && !loading && !error && (
         <>
           {attendanceRecords.length === 0 ? (
-            <div className="empty-state">No attendance records found for this employee.</div>
+            <div className="empty-state">No attendance records found for this employee yet.</div>
           ) : (
             <div>
-              <h3 style={{ marginBottom: '15px', color: '#555' }}>
-                Records for Employee: {employeeId} ({attendanceRecords.length} records)
-              </h3>
+              <h2 style={{ marginTop: '30px', marginBottom: '15px', color: '#2c3e50', fontSize: '1.1rem' }}>
+                Attendance History for {employeeId} ({attendanceRecords.length} {attendanceRecords.length === 1 ? 'record' : 'records'})
+              </h2>
               <table>
                 <thead>
                   <tr>
@@ -78,12 +78,12 @@ function AttendanceView({ onFetchAttendance }) {
                       <td>{formatDate(record.date)}</td>
                       <td>
                         <span style={{
-                          padding: '4px 12px',
+                          padding: '6px 14px',
                           borderRadius: '4px',
-                          fontSize: '12px',
+                          fontSize: '13px',
                           fontWeight: '500',
-                          backgroundColor: record.status === 'Present' ? '#e8f5e9' : '#ffebee',
-                          color: record.status === 'Present' ? '#2e7d32' : '#c62828'
+                          backgroundColor: record.status === 'Present' ? '#d5f4e6' : '#fadbd8',
+                          color: record.status === 'Present' ? '#27ae60' : '#e74c3c'
                         }}>
                           {record.status}
                         </span>

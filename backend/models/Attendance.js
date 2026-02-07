@@ -16,7 +16,7 @@ const attendanceSchema = new mongoose.Schema({
   }
 });
 
-// Compound unique index to prevent duplicate records for same employee on same date
+// unique index - same employee same date only once
 attendanceSchema.index({ employeeId: 1, date: 1 }, { unique: true });
 
 module.exports = mongoose.model('Attendance', attendanceSchema);

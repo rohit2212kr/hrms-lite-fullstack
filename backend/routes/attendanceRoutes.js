@@ -5,10 +5,10 @@ const {
   getAttendanceByEmployee
 } = require('../controllers/attendanceController');
 
-// POST /api/attendance - Mark attendance for an employee
+// POST /api/attendance - mark attendance
 router.post('/', markAttendance);
 
-// GET /api/attendance/:employeeId - Get attendance records for an employee
+// GET /api/attendance/:employeeId - get employee attendance
 router.get('/:employeeId', getAttendanceByEmployee);
 
 module.exports = router;

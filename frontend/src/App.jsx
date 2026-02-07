@@ -10,7 +10,15 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  // Fetch all employees
+  // Scroll to section helper
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }
+
+  // fetch employees on component mount
   const fetchEmployees = async () => {
     try {
       setLoading(true)
@@ -25,7 +33,7 @@ function App() {
     }
   }
 
-  // Add new employee
+  // add new employee to list
   const addEmployee = async (employeeData) => {
     try {
       setError('')
@@ -39,7 +47,7 @@ function App() {
     }
   }
 
-  // Delete employee
+  // delete employee with confirmation
   const deleteEmployee = async (employeeId) => {
     if (!window.confirm('Are you sure you want to delete this employee?')) {
       return
@@ -55,7 +63,7 @@ function App() {
     }
   }
 
-  // Mark attendance
+  // mark attendance for employee
   const markAttendance = async (attendanceData) => {
     try {
       await axios.post('/api/attendance', attendanceData)
@@ -66,7 +74,7 @@ function App() {
     }
   }
 
-  // Fetch attendance for an employee
+  // fetch attendance records for specific employee
   const fetchAttendance = async (employeeId) => {
     try {
       const response = await axios.get(`/api/attendance/${employeeId}`)
@@ -83,24 +91,62 @@ function App() {
 
   return (
     <div className="container">
-      <h1>HRMS Lite - Employee Management</h1>
-      
-      {error && <div className="error">{error}</div>}
-      
-      <EmployeeForm onAddEmployee={addEmployee} />
-      
-      <EmployeeList 
-        employees={employees} 
-        loading={loading}
-        onDeleteEmployee={deleteEmployee}
-      />
+      <div className="header">
+        <h1>HRMS Lite</h1>
+        <p>Human Resource Management System - Employee & Attendance Tracking</p>
+      </div>
 
-      <div style={{ marginTop: '40px', borderTop: '2px solid #e0e0e0', paddingTop: '40px' }}>
-        <h1 style={{ marginBottom: '30px' }}>Attendance Management</h1>
+      <div className="content">
+        {error && <div className="error">{error}</div>}
         
-        <AttendanceForm onMarkAttendance={markAttendance} />
-        
-        <AttendanceView onFetchAttendance={fetchAttendance} />
+        <div className="quick-actions">
+          <div className="action-card" onClick={() => scrollToSection('add-employee')}>
+            <h3>Add Employee</h3>
+            <p>Register a new employee</p>
+          </div>
+          <div className="action-card" onClick={() => scrollToSection('view-employees')}>
+            <h3>View Employees</h3>
+            <p>See all registered employees</p>
+          </div>
+          <div className="action-card" onClick={() => scrollToSection('attendance')}>
+            <h3>Attendance</h3>
+            <p>Mark and view attendance</p>
+          </div>
+        </div>
+
+        <div className="section" id="add-employee">
+          <div className="section-header">
+            <h2>Add New Employee</h2>
+          </div>
+          
+          <EmployeeForm onAddEmployee={addEmployee} />
+        </div>
+
+        <div className="section" id="view-employees">
+          <div className="section-header">
+            <h2>View All Employees</h2>
+          </div>
+          
+          <EmployeeList 
+            employees={employees} 
+            loading={loading}
+            onDeleteEmployee={deleteEmployee}
+          />
+        </div>
+
+        <div className="section" id="attendance">
+          <div className="section-header">
+            <h2>Attendance Management</h2>
+          </div>
+          
+          <AttendanceForm onMarkAttendance={markAttendance} />
+          
+          <AttendanceView onFetchAttendance={fetchAttendance} />
+        </div>
+      </div>
+
+      <div className="footer">
+        <p>HRMS Lite © 2024 - Built for efficient employee and attendance management</p>
       </div>
     </div>
   )
