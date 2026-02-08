@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-function AttendanceForm({ onMarkAttendance }) {
+function AttendanceForm({ onMarkAttendance, onAttendanceMarked }) {
   const [formData, setFormData] = useState({
     employeeId: '',
     date: '',
@@ -25,6 +25,12 @@ function AttendanceForm({ onMarkAttendance }) {
     
     if (result.success) {
       setMessage({ type: 'success', text: 'Attendance marked successfully!' })
+      
+      // Notify parent component that attendance was marked
+      if (onAttendanceMarked) {
+        onAttendanceMarked(formData.employeeId)
+      }
+      
       setFormData({
         employeeId: '',
         date: '',

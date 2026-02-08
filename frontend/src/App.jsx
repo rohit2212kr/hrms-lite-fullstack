@@ -15,6 +15,7 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [activeSection, setActiveSection] = useState('employees')
+  const [attendanceRefreshTrigger, setAttendanceRefreshTrigger] = useState(null)
 
   // Scroll to section helper
   const scrollToSection = (sectionId) => {
@@ -89,6 +90,13 @@ function App() {
       const errorMsg = err.response?.data?.error || 'Failed to fetch attendance'
       return { success: false, error: errorMsg }
     }
+  }
+
+  // Handle attendance marked callback
+  const handleAttendanceMarked = (employeeId) => {
+    setAttendanceRefreshTrigger(employeeId)
+    // Reset trigger after a short delay to allow for future refreshes
+    setTimeout(() => setAttendanceRefreshTrigger(null), 100)
   }
 
   useEffect(() => {
@@ -177,7 +185,10 @@ function App() {
                 <p>Record daily attendance for employees</p>
               </div>
               <div className="card-content">
-                <AttendanceForm onMarkAttendance={markAttendance} />
+                <AttendanceForm 
+                  onMarkAttendance={markAttendance} 
+                  onAttendanceMarked={handleAttendanceMarked}
+                />
               </div>
             </div>
 
@@ -187,7 +198,10 @@ function App() {
                 <p>View attendance records for any employee</p>
               </div>
               <div className="card-content">
-                <AttendanceView onFetchAttendance={fetchAttendance} />
+                <AttendanceView 
+                  onFetchAttendance={fetchAttendance}
+                  refreshTrigger={attendanceRefreshTrigger}
+                />
               </div>
             </div>
           </div>

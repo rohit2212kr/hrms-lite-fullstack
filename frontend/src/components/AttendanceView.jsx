@@ -1,19 +1,18 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
-function AttendanceView({ onFetchAttendance }) {
+function AttendanceView({ onFetchAttendance, refreshTrigger }) {
   const [employeeId, setEmployeeId] = useState('')
   const [attendanceRecords, setAttendanceRecords] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [searched, setSearched] = useState(false)
+  const [lastSearchedId, setLastSearchedId] = useState('')
 
-  const handleSearch = async (e) => {
-    e.preventDefault()
+  const fetchAttendanceRecords = async (empId) => {
     setError('')
     setLoading(true)
-    setSearched(true)
 
-    const result = await onFetchAttendance(employeeId)
+    const result = await onFetchAttendance(empId)
     
     if (result.success) {
       setAttendanceRecords(result.data)
@@ -24,6 +23,20 @@ function AttendanceView({ onFetchAttendance }) {
     
     setLoading(false)
   }
+
+  const handleSearch = async (e) => {
+    e.preventDefault()
+    setSearched(true)
+    setLastSearchedId(employeeId)
+    await fetchAttendanceRecords(employeeId)
+  }
+
+  // Auto-refresh when attendance is marked for the currently viewed employee
+  useEffect(() => {
+    if (refreshTrigger && lastSearchedId && refreshTrigger === lastSearchedId) {
+      fetchAttendanceRecords(lastSearchedId)
+    }
+  }, [refreshTrigger, lastSearchedId])
 
   const formatDate = (dateString) => {
     const date = new Date(dateString)
@@ -62,7 +75,7 @@ function AttendanceView({ onFetchAttendance }) {
             <div>
               <div className="list-header">
                 <span className="count-badge">
-                  {attendanceRecords.length} {attendanceRecords.length === 1 ? 'Record' : 'Records'} for {employeeId}
+                  {attendanceRecords.length} {attendanceRecords.length === 1 ? 'Record' : 'Records'} for {lastSearchedId}
                 </span>
               </div>
               <table>
