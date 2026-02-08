@@ -457,7 +457,7 @@ tbody tr:hover {
 
 .results-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   margin-bottom: 1rem;
   padding: 0.75rem;
@@ -474,41 +474,6 @@ tbody tr:hover {
   font-size: 0.85rem;
   font-weight: 700;
   box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
-}
-
-.results-auto-refresh {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-  padding: 6px 10px;
-  border-radius: 15px;
-  border: 1px solid #0ea5e9;
-  box-shadow: 0 1px 3px rgba(14, 165, 233, 0.2);
-}
-
-.results-auto-refresh span {
-  font-size: 11px;
-  color: #0c4a6e;
-  font-weight: 600;
-}
-
-.stop-refresh-btn {
-  font-size: 10px !important;
-  padding: 3px 6px !important;
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
-  color: white !important;
-  border: none !important;
-  border-radius: 10px !important;
-  cursor: pointer !important;
-  font-weight: 600 !important;
-  box-shadow: 0 1px 2px rgba(239, 68, 68, 0.3) !important;
-  transition: all 0.2s ease !important;
-}
-
-.stop-refresh-btn:hover {
-  transform: translateY(-1px) !important;
-  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.4) !important;
 }
 
 .results-table-container {

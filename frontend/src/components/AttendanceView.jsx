@@ -7,7 +7,6 @@ function AttendanceView({ onFetchAttendance, refreshTrigger }) {
   const [error, setError] = useState('')
   const [searched, setSearched] = useState(false)
   const [lastSearchedId, setLastSearchedId] = useState('')
-  const [autoRefresh, setAutoRefresh] = useState(false)
 
   const fetchAttendanceRecords = async (empId) => {
     setError('')
@@ -29,7 +28,6 @@ function AttendanceView({ onFetchAttendance, refreshTrigger }) {
     e.preventDefault()
     setSearched(true)
     setLastSearchedId(employeeId)
-    setAutoRefresh(true)
     await fetchAttendanceRecords(employeeId)
   }
 
@@ -40,27 +38,6 @@ function AttendanceView({ onFetchAttendance, refreshTrigger }) {
     }
   }, [refreshTrigger, lastSearchedId, onFetchAttendance])
 
-  // Auto-refresh every 5 seconds when viewing attendance records
-  useEffect(() => {
-    let interval = null
-    if (autoRefresh && lastSearchedId && !loading) {
-      interval = setInterval(() => {
-        fetchAttendanceRecords(lastSearchedId)
-      }, 5000) // Refresh every 5 seconds
-    }
-    
-    return () => {
-      if (interval) {
-        clearInterval(interval)
-      }
-    }
-  }, [autoRefresh, lastSearchedId, loading, onFetchAttendance])
-
-  // Stop auto-refresh when component unmounts or search changes
-  useEffect(() => {
-    return () => setAutoRefresh(false)
-  }, [])
-
   const formatDate = (dateString) => {
     const date = new Date(dateString)
     return date.toLocaleDateString('en-US', { 
@@ -68,10 +45,6 @@ function AttendanceView({ onFetchAttendance, refreshTrigger }) {
       month: 'short', 
       day: 'numeric' 
     })
-  }
-
-  const handleStopAutoRefresh = () => {
-    setAutoRefresh(false)
   }
 
   return (
@@ -88,7 +61,7 @@ function AttendanceView({ onFetchAttendance, refreshTrigger }) {
           <div className="helper-text">Enter an employee ID to view their complete attendance history</div>
         </div>
 
-        {/* Results Display Area - Red Rectangle */}
+        {/* Results Display Area */}
         <div className="attendance-results-area">
           {!searched && (
             <div className="results-placeholder">
@@ -121,18 +94,6 @@ function AttendanceView({ onFetchAttendance, refreshTrigger }) {
                 <span className="results-count-badge">
                   {attendanceRecords.length} {attendanceRecords.length === 1 ? 'Record' : 'Records'} for {lastSearchedId}
                 </span>
-                {autoRefresh && (
-                  <div className="results-auto-refresh">
-                    <span>🔄 Auto-refreshing every 5s</span>
-                    <button 
-                      type="button" 
-                      onClick={handleStopAutoRefresh}
-                      className="stop-refresh-btn"
-                    >
-                      Stop
-                    </button>
-                  </div>
-                )}
               </div>
               
               <div className="results-table-container">
