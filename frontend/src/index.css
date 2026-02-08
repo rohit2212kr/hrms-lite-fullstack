@@ -384,10 +384,9 @@ tbody tr:hover {
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-/* Attendance Results Area - Red Rectangle */
+/* Attendance Results Area - Clean Display */
 .attendance-results-area {
   min-height: 300px;
-  border: 2px solid #ef4444;
   border-radius: 8px;
   padding: 1.5rem;
   margin: 1rem 0;
