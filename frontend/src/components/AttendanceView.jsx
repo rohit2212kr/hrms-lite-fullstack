@@ -58,7 +58,6 @@ function AttendanceView({ onFetchAttendance, refreshTrigger }) {
             onChange={(e) => setEmployeeId(e.target.value)}
             required
           />
-          <div className="helper-text">Enter an employee ID to view their complete attendance history</div>
         </div>
 
         {/* Results Display Area */}

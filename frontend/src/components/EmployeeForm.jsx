@@ -52,7 +52,6 @@ function EmployeeForm({ onAddEmployee }) {
           onChange={handleChange}
           required
         />
-        <div className="helper-text">Unique identifier such as EMP001, EMP002, etc.</div>
       </div>
 
       <div className="form-group">
@@ -64,7 +63,6 @@ function EmployeeForm({ onAddEmployee }) {
           onChange={handleChange}
           required
         />
-        <div className="helper-text">Employee's complete name as per official records</div>
       </div>
 
       <div className="form-group">
@@ -76,7 +74,6 @@ function EmployeeForm({ onAddEmployee }) {
           onChange={handleChange}
           required
         />
-        <div className="helper-text">Work email address for official communication</div>
       </div>
 
       <div className="form-group">
@@ -88,7 +85,6 @@ function EmployeeForm({ onAddEmployee }) {
           onChange={handleChange}
           required
         />
-        <div className="helper-text">The department or team this employee belongs to</div>
       </div>
 
       <div className="form-group">
@@ -100,7 +96,6 @@ function EmployeeForm({ onAddEmployee }) {
           onChange={handleChange}
           required
         />
-        <div className="helper-text">Current role or job title</div>
       </div>
 
       <button type="submit" disabled={submitting}>

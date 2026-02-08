@@ -54,7 +54,6 @@ function AttendanceForm({ onMarkAttendance, onAttendanceMarked }) {
           onChange={handleChange}
           required
         />
-        <div className="helper-text">Enter the ID of the employee whose attendance you want to mark</div>
       </div>
 
       <div className="form-group">
@@ -66,7 +65,6 @@ function AttendanceForm({ onMarkAttendance, onAttendanceMarked }) {
           onChange={handleChange}
           required
         />
-        <div className="helper-text">Choose the date for this attendance record</div>
       </div>
 
       <div className="form-group">
@@ -80,7 +78,6 @@ function AttendanceForm({ onMarkAttendance, onAttendanceMarked }) {
           <option value="Present">Present</option>
           <option value="Absent">Absent</option>
         </select>
-        <div className="helper-text">Mark whether the employee was present or absent</div>
       </div>
 
       <button type="submit" disabled={submitting}>
