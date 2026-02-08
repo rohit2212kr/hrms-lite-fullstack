@@ -273,14 +273,19 @@ button:disabled {
 }
 
 /* Table Styling */
-table {
+.table-container {
   width: 100%;
-  border-collapse: collapse;
-  background-color: white;
+  overflow-x: auto;
   border-radius: 8px;
-  overflow: hidden;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08);
   border: 1px solid #e5e7eb;
+}
+
+table {
+  width: 100%;
+  min-width: 700px;
+  border-collapse: collapse;
+  background-color: white;
 }
 
 th, td {
@@ -288,6 +293,14 @@ th, td {
   text-align: left;
   border-bottom: 1px solid #e5e7eb;
   font-size: 0.95rem;
+}
+
+/* Ensure Actions column has proper width */
+th:last-child, td:last-child {
+  width: 100px;
+  min-width: 100px;
+  text-align: center;
+  padding: 1.25rem 0.5rem;
 }
 
 th {
@@ -528,26 +541,30 @@ tbody tr:hover {
 }
 
 .menu-trigger {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
+  background: #f8f9fa;
+  border: 2px solid #e9ecef;
+  font-size: 1.4rem;
   font-weight: bold;
-  color: #6b7280;
+  color: #495057;
   cursor: pointer;
   padding: 0.5rem;
-  border-radius: 4px;
+  border-radius: 6px;
   transition: all 0.2s ease;
   line-height: 1;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .menu-trigger:hover {
-  background-color: #f3f4f6;
-  color: #374151;
+  background-color: #e9ecef;
+  color: #212529;
+  border-color: #dee2e6;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
 .action-menu {
@@ -555,12 +572,13 @@ tbody tr:hover {
   top: 100%;
   right: 0;
   background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  min-width: 120px;
+  min-width: 140px;
   overflow: hidden;
+  margin-top: 4px;
 }
 
 .menu-item {

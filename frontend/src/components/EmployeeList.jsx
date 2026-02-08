@@ -35,64 +35,67 @@ function EmployeeList({ employees, loading, onDeleteEmployee }) {
       <div className="list-header">
         <span className="count-badge">{employees.length} {employees.length === 1 ? 'Employee' : 'Employees'}</span>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Employee ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Department</th>
-            <th>Position</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {employees.map((employee) => (
-            <tr key={employee.employeeId}>
-              <td>{employee.employeeId}</td>
-              <td>{employee.name}</td>
-              <td>{employee.email}</td>
-              <td>{employee.department}</td>
-              <td>{employee.position}</td>
-              <td>
-                <div className="action-menu-container">
-                  <button 
-                    className="menu-trigger"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      toggleMenu(employee.employeeId)
-                    }}
-                  >
-                    ⋮
-                  </button>
-                  {openMenuId === employee.employeeId && (
-                    <div className="action-menu">
-                      <button 
-                        className="menu-item"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          handleEdit(employee)
-                        }}
-                      >
-                        Edit
-                      </button>
-                      <button 
-                        className="menu-item delete"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          handleDelete(employee.employeeId)
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </td>
+      <div className="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Employee ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Department</th>
+              <th>Position</th>
+              <th style={{ textAlign: 'center' }}>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {employees.map((employee) => (
+              <tr key={employee.employeeId}>
+                <td>{employee.employeeId}</td>
+                <td>{employee.name}</td>
+                <td>{employee.email}</td>
+                <td>{employee.department}</td>
+                <td>{employee.position}</td>
+                <td style={{ textAlign: 'center' }}>
+                  <div className="action-menu-container">
+                    <button 
+                      className="menu-trigger"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        toggleMenu(employee.employeeId)
+                      }}
+                      title="More actions"
+                    >
+                      ⋮
+                    </button>
+                    {openMenuId === employee.employeeId && (
+                      <div className="action-menu">
+                        <button 
+                          className="menu-item"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            handleEdit(employee)
+                          }}
+                        >
+                          Edit
+                        </button>
+                        <button 
+                          className="menu-item delete"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            handleDelete(employee.employeeId)
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
