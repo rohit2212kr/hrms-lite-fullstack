@@ -7,6 +7,7 @@ function AttendanceView({ onFetchAttendance, refreshTrigger }) {
   const [error, setError] = useState('')
   const [searched, setSearched] = useState(false)
   const [lastSearchedId, setLastSearchedId] = useState('')
+  const [autoRefresh, setAutoRefresh] = useState(false)
 
   const fetchAttendanceRecords = async (empId) => {
     setError('')
@@ -28,6 +29,7 @@ function AttendanceView({ onFetchAttendance, refreshTrigger }) {
     e.preventDefault()
     setSearched(true)
     setLastSearchedId(employeeId)
+    setAutoRefresh(true)
     await fetchAttendanceRecords(employeeId)
   }
 
@@ -36,7 +38,28 @@ function AttendanceView({ onFetchAttendance, refreshTrigger }) {
     if (refreshTrigger && lastSearchedId && refreshTrigger === lastSearchedId) {
       fetchAttendanceRecords(lastSearchedId)
     }
-  }, [refreshTrigger, lastSearchedId])
+  }, [refreshTrigger, lastSearchedId, onFetchAttendance])
+
+  // Auto-refresh every 5 seconds when viewing attendance records
+  useEffect(() => {
+    let interval = null
+    if (autoRefresh && lastSearchedId && !loading) {
+      interval = setInterval(() => {
+        fetchAttendanceRecords(lastSearchedId)
+      }, 5000) // Refresh every 5 seconds
+    }
+    
+    return () => {
+      if (interval) {
+        clearInterval(interval)
+      }
+    }
+  }, [autoRefresh, lastSearchedId, loading, onFetchAttendance])
+
+  // Stop auto-refresh when component unmounts or search changes
+  useEffect(() => {
+    return () => setAutoRefresh(false)
+  }, [])
 
   const formatDate = (dateString) => {
     const date = new Date(dateString)
@@ -45,6 +68,10 @@ function AttendanceView({ onFetchAttendance, refreshTrigger }) {
       month: 'short', 
       day: 'numeric' 
     })
+  }
+
+  const handleStopAutoRefresh = () => {
+    setAutoRefresh(false)
   }
 
   return (
@@ -77,6 +104,27 @@ function AttendanceView({ onFetchAttendance, refreshTrigger }) {
                 <span className="count-badge">
                   {attendanceRecords.length} {attendanceRecords.length === 1 ? 'Record' : 'Records'} for {lastSearchedId}
                 </span>
+                {autoRefresh && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <span style={{ fontSize: '12px', color: '#666' }}>
+                      Auto-refreshing every 5s
+                    </span>
+                    <button 
+                      type="button" 
+                      onClick={handleStopAutoRefresh}
+                      style={{ 
+                        fontSize: '12px', 
+                        padding: '4px 8px',
+                        background: '#f0f0f0',
+                        border: '1px solid #ccc',
+                        borderRadius: '4px',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Stop
+                    </button>
+                  </div>
+                )}
               </div>
               <table>
                 <thead>
