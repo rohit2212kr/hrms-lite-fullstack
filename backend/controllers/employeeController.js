@@ -1,4 +1,5 @@
 const Employee = require('../models/Employee');
+const Attendance = require('../models/Attendance');
 
 // Add new employee
 const addEmployee = async (req, res) => {
@@ -42,13 +43,20 @@ const deleteEmployee = async (req, res) => {
   try {
     const { employeeId } = req.params;
 
-    const employee = await Employee.findOneAndDelete({ employeeId });
+    // Check if employee exists
+    const employee = await Employee.findOne({ employeeId });
 
     if (!employee) {
       return res.status(404).json({ error: 'Employee not found' });
     }
 
-    res.status(200).json({ message: 'Employee deleted successfully' });
+    // Delete all attendance records for this employee
+    await Attendance.deleteMany({ employeeId });
+
+    // Delete the employee
+    await Employee.findOneAndDelete({ employeeId });
+
+    res.status(200).json({ message: 'Employee and related attendance records deleted successfully' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
