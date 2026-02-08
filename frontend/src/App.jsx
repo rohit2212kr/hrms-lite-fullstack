@@ -6,7 +6,9 @@ import AttendanceView from './components/AttendanceView'
 import axios from 'axios'
 
 // Base URL for deployed backend
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://hrms-lite-fullstack-m1ki.onrender.com';
+
+console.log('API_BASE_URL:', API_BASE_URL);
 
 function App() {
   const [employees, setEmployees] = useState([])
