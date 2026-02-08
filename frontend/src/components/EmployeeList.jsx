@@ -1,4 +1,27 @@
+import { useState } from 'react'
+
 function EmployeeList({ employees, loading, onDeleteEmployee }) {
+  const [openMenuId, setOpenMenuId] = useState(null)
+
+  const toggleMenu = (employeeId) => {
+    setOpenMenuId(openMenuId === employeeId ? null : employeeId)
+  }
+
+  const handleEdit = (employee) => {
+    alert('Edit feature coming soon')
+    setOpenMenuId(null)
+  }
+
+  const handleDelete = (employeeId) => {
+    onDeleteEmployee(employeeId)
+    setOpenMenuId(null)
+  }
+
+  // Close menu when clicking outside
+  const handleOutsideClick = () => {
+    setOpenMenuId(null)
+  }
+
   if (loading) {
     return <div className="empty-state">Loading employees...</div>
   }
@@ -8,7 +31,7 @@ function EmployeeList({ employees, loading, onDeleteEmployee }) {
   }
 
   return (
-    <div>
+    <div onClick={handleOutsideClick}>
       <div className="list-header">
         <span className="count-badge">{employees.length} {employees.length === 1 ? 'Employee' : 'Employees'}</span>
       </div>
@@ -20,7 +43,7 @@ function EmployeeList({ employees, loading, onDeleteEmployee }) {
             <th>Email</th>
             <th>Department</th>
             <th>Position</th>
-            <th>Action</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -32,12 +55,39 @@ function EmployeeList({ employees, loading, onDeleteEmployee }) {
               <td>{employee.department}</td>
               <td>{employee.position}</td>
               <td>
-                <button 
-                  className="delete-btn"
-                  onClick={() => onDeleteEmployee(employee.employeeId)}
-                >
-                  Delete
-                </button>
+                <div className="action-menu-container">
+                  <button 
+                    className="menu-trigger"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      toggleMenu(employee.employeeId)
+                    }}
+                  >
+                    ⋮
+                  </button>
+                  {openMenuId === employee.employeeId && (
+                    <div className="action-menu">
+                      <button 
+                        className="menu-item"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleEdit(employee)
+                        }}
+                      >
+                        Edit
+                      </button>
+                      <button 
+                        className="menu-item delete"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleDelete(employee.employeeId)
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
+                </div>
               </td>
             </tr>
           ))}
