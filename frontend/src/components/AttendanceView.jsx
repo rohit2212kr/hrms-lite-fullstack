@@ -35,9 +35,7 @@ function AttendanceView({ onFetchAttendance }) {
   }
 
   return (
-    <div className="form-section">
-      <h2>View Attendance History</h2>
-      
+    <div>
       <form onSubmit={handleSearch} style={{ marginBottom: '25px' }}>
         <div className="form-group">
           <label>Employee ID</label>
@@ -62,9 +60,11 @@ function AttendanceView({ onFetchAttendance }) {
             <div className="empty-state">No attendance records found for this employee yet.</div>
           ) : (
             <div>
-              <h2 style={{ marginTop: '30px', marginBottom: '15px', color: '#2c3e50', fontSize: '1.1rem' }}>
-                Attendance History for {employeeId} ({attendanceRecords.length} {attendanceRecords.length === 1 ? 'record' : 'records'})
-              </h2>
+              <div className="list-header">
+                <span className="count-badge">
+                  {attendanceRecords.length} {attendanceRecords.length === 1 ? 'Record' : 'Records'} for {employeeId}
+                </span>
+              </div>
               <table>
                 <thead>
                   <tr>
@@ -77,14 +77,7 @@ function AttendanceView({ onFetchAttendance }) {
                     <tr key={index}>
                       <td>{formatDate(record.date)}</td>
                       <td>
-                        <span style={{
-                          padding: '6px 14px',
-                          borderRadius: '4px',
-                          fontSize: '13px',
-                          fontWeight: '500',
-                          backgroundColor: record.status === 'Present' ? '#d5f4e6' : '#fadbd8',
-                          color: record.status === 'Present' ? '#27ae60' : '#e74c3c'
-                        }}>
+                        <span className={`status-badge ${record.status.toLowerCase()}`}>
                           {record.status}
                         </span>
                       </td>

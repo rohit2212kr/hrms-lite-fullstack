@@ -14,6 +14,7 @@ function App() {
   const [employees, setEmployees] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [activeSection, setActiveSection] = useState('employees')
 
   // Scroll to section helper
   const scrollToSection = (sectionId) => {
@@ -95,60 +96,108 @@ function App() {
   }, [])
 
   return (
-    <div className="container">
-      <div className="header">
-        <h1>HRMS Lite</h1>
-        <p>Human Resource Management System - Employee & Attendance Tracking</p>
-      </div>
+    <div className="app">
+      {/* Navigation Bar */}
+      <nav className="navbar">
+        <div className="nav-brand">
+          <h1>HRMS Lite</h1>
+          <span>Human Resource Management System</span>
+        </div>
+        <div className="nav-links">
+          <button 
+            className={`nav-link ${activeSection === 'employees' ? 'active' : ''}`}
+            onClick={() => {
+              setActiveSection('employees')
+              scrollToSection('employees-section')
+            }}
+          >
+            Employees
+          </button>
+          <button 
+            className={`nav-link ${activeSection === 'attendance' ? 'active' : ''}`}
+            onClick={() => {
+              setActiveSection('attendance')
+              scrollToSection('attendance-section')
+            }}
+          >
+            Attendance
+          </button>
+        </div>
+      </nav>
 
-      <div className="content">
-        {error && <div className="error">{error}</div>}
+      {/* Main Content */}
+      <div className="main-content">
+        {error && <div className="error-banner">{error}</div>}
         
-        <div className="quick-actions">
-          <div className="action-card" onClick={() => scrollToSection('add-employee')}>
-            <h3>Add Employee</h3>
-            <p>Register a new employee</p>
+        {/* Employee Management Section */}
+        <section id="employees-section" className="content-section">
+          <div className="section-title">
+            <h2>Employee Management</h2>
+            <p>Manage your organization's employee records</p>
           </div>
-          <div className="action-card" onClick={() => scrollToSection('view-employees')}>
-            <h3>View Employees</h3>
-            <p>See all registered employees</p>
-          </div>
-          <div className="action-card" onClick={() => scrollToSection('attendance')}>
-            <h3>Attendance</h3>
-            <p>Mark and view attendance</p>
-          </div>
-        </div>
+          
+          <div className="cards-container">
+            <div className="card">
+              <div className="card-header">
+                <h3>Add New Employee</h3>
+                <p>Register a new employee in the system</p>
+              </div>
+              <div className="card-content">
+                <EmployeeForm onAddEmployee={addEmployee} />
+              </div>
+            </div>
 
-        <div className="section" id="add-employee">
-          <div className="section-header">
-            <h2>Add New Employee</h2>
+            <div className="card">
+              <div className="card-header">
+                <h3>Employee Directory</h3>
+                <p>View and manage all registered employees</p>
+              </div>
+              <div className="card-content">
+                <EmployeeList 
+                  employees={employees} 
+                  loading={loading}
+                  onDeleteEmployee={deleteEmployee}
+                />
+              </div>
+            </div>
           </div>
-          <EmployeeForm onAddEmployee={addEmployee} />
-        </div>
+        </section>
 
-        <div className="section" id="view-employees">
-          <div className="section-header">
-            <h2>View All Employees</h2>
-          </div>
-          <EmployeeList 
-            employees={employees} 
-            loading={loading}
-            onDeleteEmployee={deleteEmployee}
-          />
-        </div>
-
-        <div className="section" id="attendance">
-          <div className="section-header">
+        {/* Attendance Management Section */}
+        <section id="attendance-section" className="content-section">
+          <div className="section-title">
             <h2>Attendance Management</h2>
+            <p>Track and manage employee attendance records</p>
           </div>
-          <AttendanceForm onMarkAttendance={markAttendance} />
-          <AttendanceView onFetchAttendance={fetchAttendance} />
-        </div>
+          
+          <div className="cards-container">
+            <div className="card">
+              <div className="card-header">
+                <h3>Mark Attendance</h3>
+                <p>Record daily attendance for employees</p>
+              </div>
+              <div className="card-content">
+                <AttendanceForm onMarkAttendance={markAttendance} />
+              </div>
+            </div>
+
+            <div className="card">
+              <div className="card-header">
+                <h3>Attendance History</h3>
+                <p>View attendance records for any employee</p>
+              </div>
+              <div className="card-content">
+                <AttendanceView onFetchAttendance={fetchAttendance} />
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
 
-      <div className="footer">
+      {/* Footer */}
+      <footer className="footer">
         <p>HRMS Lite © 2024 - Built for efficient employee and attendance management</p>
-      </div>
+      </footer>
     </div>
   )
 }
