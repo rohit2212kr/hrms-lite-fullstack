@@ -16,6 +16,16 @@ const markAttendance = async (req, res) => {
       return res.status(400).json({ error: 'Status must be either Present or Absent' });
     }
 
+    // validate date is not in the future
+    const attendanceDate = new Date(date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // reset time to start of day
+    attendanceDate.setHours(0, 0, 0, 0); // reset time to start of day
+
+    if (attendanceDate > today) {
+      return res.status(400).json({ error: 'Attendance cannot be marked for a future date' });
+    }
+
     // verify employee exists
     const employee = await Employee.findOne({ employeeId });
     if (!employee) {
